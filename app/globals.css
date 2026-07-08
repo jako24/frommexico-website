@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #FAFAF9;
+  --color-surface: #FFFFFF;
+  --color-foreground: #1C1917;
+  --color-muted: #78716C;
+  --color-accent: #0D9488;
+  --color-accent-hover: #0F766E;
+  --color-dark-surface: #292524;
+  --font-serif: var(--font-playfair-display);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    scroll-behavior: auto;
+  }
+}
