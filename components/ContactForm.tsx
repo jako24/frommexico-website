@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import Section from "@/components/Section";
 import copy from "@/lib/copy";
 import { products } from "@/lib/data";
+import { sendContactEmail } from "@/app/actions/contact";
 
 interface FormData {
   name: string;
@@ -81,12 +82,19 @@ export default function ContactForm() {
 
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setSubmitSuccess(true);
-      setFormData(initialFormData);
-      setTimeout(() => setSubmitSuccess(false), 5000);
+      const response = await sendContactEmail(formData);
+      
+      if (response.success) {
+        setSubmitSuccess(true);
+        setFormData(initialFormData);
+        setTimeout(() => setSubmitSuccess(false), 5000);
+      } else {
+        console.error("Submission error:", response.error);
+        alert(response.error || "Failed to send message. Please try again.");
+      }
     } catch (error) {
       console.error("Submission error:", error);
+      alert("An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
