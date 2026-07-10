@@ -27,12 +27,12 @@ export async function sendContactEmail(data: ContactData) {
     const fromEmail = process.env.CONTACT_EMAIL_FROM || "onboarding@resend.dev";
 
     const response = await resend.emails.send({
-      from: `From Mexico Contact <${fromEmail}>`,
+      from: `FromMexico Contact <${fromEmail}>`,
       to: [toEmail],
       subject: `New Inquiry from ${data.name} at ${data.company}`,
       replyTo: data.email,
       html: `
-        <h2>New Contact Request - From Mexico</h2>
+        <h2>New Contact Request - FromMexico</h2>
         <p><strong>Name:</strong> ${data.name}</p>
         <p><strong>Company:</strong> ${data.company}</p>
         <p><strong>Email:</strong> ${data.email}</p>

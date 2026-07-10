@@ -21,7 +21,7 @@ export const PitchEmail = ({
   recipientName = "Fernando",
   senderName = "Jan Korczynski",
   phoneNumber = "+48 791 633 136", // Replace with your actual phone number
-  companyName = "From Mexico",
+  companyName = "FromMexico",
 }: PitchEmailProps) => {
   return (
     <Html>

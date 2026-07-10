@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     }));
 
     const { data, error } = await resend.emails.send({
-      from: `From Mexico <${fromEmail}>`,
+      from: `FromMexico <${fromEmail}>`,
       to: [to],
       replyTo: process.env.CONTACT_EMAIL_TO,
       subject: "Premium Hass Avocados directly from Mexico",

@@ -1,7 +1,7 @@
 export const copy = {
   brand: {
     name: "frommexico",
-    displayName: "From Mexico",
+    displayName: "FromMexico",
     tagline: "Mexican organic fruit, shipped fresh to Europe",
   },
   hero: {
@@ -16,7 +16,7 @@ export const copy = {
       "Three operational standards that keep every shipment consistent from orchard to dock.",
   },
   about: {
-    title: "From Mexico's growing regions to Europe's cold stores",
+    title: "FromMexico's growing regions to Europe's cold stores",
     paragraphs: [
       "We work directly with family growers and cooperatives in Michoacán, Chiapas, Veracruz and Oaxaca. Each region is chosen for the specific fruit it produces best.",
       "Fruit is harvested at the right maturity, cooled within four hours, graded to EU specifications and loaded into controlled-atmosphere containers at our Veracruz packing house.",

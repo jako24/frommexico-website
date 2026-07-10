@@ -1,6 +1,6 @@
 # frommexico.com
 
-Landing page for From Mexico — organic produce and pantry ingredients shipped from Mexico to Europe.
+Landing page for FromMexico — organic produce and pantry ingredients shipped from Mexico to Europe.
 
 ## Tech stack
 
