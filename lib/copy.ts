@@ -39,7 +39,7 @@ export const copy = {
     subtitle:
       "Tell us what you need — product, volume, delivery window and destination port. We reply within one business day.",
     details: {
-      email: "trade@frommexico.com",
+      email: "korczynskijanek24@gmail.com",
       phone: "+48 791 633 136",
       phone2: "+52 618 266 9139",
       address: "Amapola S/N, Jardines de Dgo, 34200 Durango, Dgo",
@@ -66,7 +66,7 @@ export const copy = {
       terms: "Terms",
       privacy: "Privacy",
     },
-    copyright: "© 2025 fromméxico.com. All rights reserved.",
+    copyright: "© 2026 fromméxico.com. All rights reserved.",
     socialLabel: "Follow us",
   },
 };
