@@ -42,7 +42,7 @@ export const copy = {
       email: "trade@frommexico.com",
       phone: "+48 791 633 136",
       phone2: "+52 618 266 9139",
-      address: "Skorochod-Majewskiego 9, 02-104 Warsaw, Poland",
+      address: "Amapola S/N, Jardines de Dgo, 34200 Durango, Dgo",
     },
     form: {
       nameLabel: "Full name",
