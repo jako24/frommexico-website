@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import copy from "@/lib/copy";
 
 const playfair = Playfair_Display({
@@ -24,6 +22,22 @@ export const metadata: Metadata = {
   },
   description: copy.brand.tagline,
   metadataBase: new URL("https://frommexico.com"),
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/email-logo.png",
+    apple: "/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "FromMexico",
+    statusBarStyle: "default",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0F766E",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -36,11 +50,7 @@ export default function RootLayout({
       lang="en"
       className={`${playfair.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

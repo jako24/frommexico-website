@@ -40,7 +40,7 @@ export const PitchEmail = ({
           </Text>
           
           <Text style={paragraph}>
-            We have a fresh supply ready to ship, and I would love to discuss how we can support your upcoming volume requirements. You can review our process and <Link href="https://www.xn--frommxico-f4a.com/#contact" style={link}>request a direct quote on our website</Link>.
+            We have a fresh supply ready to ship, and I would love to discuss how we can support your upcoming volume requirements. You can review our process and <Link href="https://frommexico.com/#contact" style={link}>request a direct quote on our website</Link>.
           </Text>
 
           <Text style={paragraph}>
