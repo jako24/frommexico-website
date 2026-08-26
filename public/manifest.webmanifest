@@ -1,0 +1,22 @@
+{
+  "name": "FromMexico sales desk",
+  "short_name": "FromMexico",
+  "description": "Wholesale outreach for FromMexico. Add buyers, send sequences, mark replies.",
+  "start_url": "/outreach",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FAFAF9",
+  "theme_color": "#0F766E",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/email-logo.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ]
+}
