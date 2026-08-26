@@ -80,10 +80,15 @@ These are dashboard clicks, not code.
 
 ### Daily use
 
-1. Add company + work email. Leave **Send email 1 now** checked.  
+You do **not** have to research the company inside the desk. If you already have a work email:
+
+1. Open `/outreach` → **Work email** + **Country** → **Send email 1 now**.  
+   - Mexico or Spain → Spanish template  
+   - Poland → Polish template  
+   - Any other country → English template  
 2. Wait. Email 2 goes about 4 days later, email 3 about 6 days after that.  
 3. When Gmail pings, answer from Gmail, then tap **Mark replied — stop follow-ups**.
 
-CSV import (columns: company, email, contact, city, website, products, language, notes) is for lists you already have a right to use — trade-fair contacts, published purchasing emails, people who wrote to you.
+CSV import needs an `email` column. `country` chooses the language. Company name is optional (taken from the email domain if missing).
 
 Until the domain is authenticated in Resend, even a strong letter will keep dying in spam.

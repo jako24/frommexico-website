@@ -2,6 +2,9 @@ import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 import { randomBytes, randomUUID } from "crypto";
 import type { Lead, LeadEventType, LeadInput, LeadLanguage } from "./types";
+import { companyFromEmail, languageFromCountry, parseLanguage as parseLanguageCode } from "./language";
+
+export { parseLanguageCode as parseLanguage };
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const DATA_FILE = path.join(DATA_DIR, "leads.json");
@@ -45,7 +48,14 @@ function parseLeads(raw: string | null | undefined): Lead[] {
   }
   try {
     const parsed = JSON.parse(raw) as Lead[];
-    return Array.isArray(parsed) ? parsed : [];
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+    return parsed.map((lead) => ({
+      ...lead,
+      country: lead.country || "",
+      language: lead.language === "es" || lead.language === "pl" ? lead.language : lead.language === "en" ? "en" : "pl",
+    }));
   } catch {
     return [];
   }
@@ -96,12 +106,15 @@ function pushEvent(lead: Lead, type: LeadEventType, detail?: string) {
 
 export async function createLead(input: LeadInput): Promise<Lead> {
   const email = normalizeEmail(input.email);
-  if (!input.companyName.trim()) {
-    throw new Error("Company name is required.");
-  }
   if (!isValidEmail(email)) {
     throw new Error("A valid work email is required.");
   }
+
+  const country = (input.country || "").trim();
+  const language: LeadLanguage = input.language
+    ? input.language
+    : languageFromCountry(country);
+  const companyName = input.companyName?.trim() || companyFromEmail(email);
 
   const leads = await listLeads();
   const existing = leads.find((lead) => lead.email === email);
@@ -115,13 +128,14 @@ export async function createLead(input: LeadInput): Promise<Lead> {
   const now = new Date().toISOString();
   const lead: Lead = {
     id: randomUUID(),
-    companyName: input.companyName.trim(),
+    companyName,
     contactName: input.contactName?.trim() || "",
     email,
     city: input.city?.trim() || "",
+    country,
     website: input.website?.trim() || "",
     productsNoted: input.productsNoted?.trim() || "mango, avocado",
-    language: input.language === "en" ? "en" : "pl",
+    language,
     notes: input.notes?.trim() || "",
     status: "new",
     sequenceStep: 0,
@@ -200,10 +214,6 @@ export async function saveAllLeads(leads: Lead[]) {
 
 export function addEvent(lead: Lead, type: LeadEventType, detail?: string) {
   pushEvent(lead, type, detail);
-}
-
-export function parseLanguage(value: string | undefined): LeadLanguage {
-  return value?.toLowerCase() === "en" ? "en" : "pl";
 }
 
 export function isPersistentStoreConfigured() {

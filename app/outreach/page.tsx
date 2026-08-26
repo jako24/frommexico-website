@@ -35,7 +35,7 @@ export default async function OutreachPage() {
       <Gate>
         <h1 className="font-serif text-3xl text-stone-900">FromMexico sales desk</h1>
         <p className="mt-2 text-sm text-stone-600">
-          Add a buyer on your phone. Weekday follow-ups send themselves. Replies land in Gmail.
+          Add a buyer on your phone: email and country. Mexico is Spanish, Poland is Polish, everything else is English.
         </p>
         <p className="mt-2 text-xs text-stone-500">
           On iPhone: Share → Add to Home Screen. On Android: menu → Add to Home screen.

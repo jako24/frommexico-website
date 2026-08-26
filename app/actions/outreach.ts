@@ -21,7 +21,7 @@ import {
   replaceLead,
   updateLead,
 } from "@/lib/outreach/store";
-import type { LeadInput, LeadLanguage, LeadStatus } from "@/lib/outreach/types";
+import type { LeadInput, LeadStatus } from "@/lib/outreach/types";
 
 async function requireAuth() {
   if (!(await isOutreachAuthenticated())) {
@@ -187,14 +187,19 @@ export async function getOutreachSnapshot() {
 }
 
 function formFrom(formData: FormData): LeadInput {
+  const country = String(formData.get("country") || "");
+  const languageRaw = String(formData.get("language") || "");
   return {
     companyName: String(formData.get("companyName") || ""),
     contactName: String(formData.get("contactName") || ""),
     email: String(formData.get("email") || ""),
     city: String(formData.get("city") || ""),
+    country,
     website: String(formData.get("website") || ""),
     productsNoted: String(formData.get("productsNoted") || ""),
-    language: parseLanguage(String(formData.get("language") || "")) as LeadLanguage,
+    language: languageRaw
+      ? parseLanguage(languageRaw)
+      : undefined,
     notes: String(formData.get("notes") || ""),
   };
 }

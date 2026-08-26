@@ -16,8 +16,10 @@ import { researchLinks, researchPlaybook } from "@/lib/outreach/research";
 import {
   remainingDailyCapacity,
   buildSequenceEmail,
+  closingLine,
   sentTodayCount,
 } from "@/lib/outreach/sequence";
+import { COUNTRY_OPTIONS } from "@/lib/outreach/language";
 import copy from "@/lib/copy";
 import type { Lead, LeadStatus } from "@/lib/outreach/types";
 import { SEQUENCE_STEP_LABELS } from "@/lib/outreach/types";
@@ -57,6 +59,7 @@ export default function OutreachDesk({
     contactName: "",
     email: "zakupy@example.com",
     city: "Warszawa",
+    country: "Poland",
     website: "",
     productsNoted: "mango, awokado",
     language: "pl",
@@ -113,9 +116,9 @@ export default function OutreachDesk({
           <p className="text-sm font-medium text-teal-700">FromMexico sales desk</p>
           <h1 className="font-serif text-3xl text-stone-900">Buyer outreach</h1>
           <p className="mt-2 max-w-2xl text-sm text-stone-600">
-            Paste a wholesale address you already have a right to contact. The desk sends a
-            three-step Polish or English sequence, follow-ups go out on weekdays, and replies
-            arrive in Gmail on your phone.
+            Paste a work email and the country. English is the default template. Mexico and Spain
+            send in Spanish; Poland sends in Polish. Follow-ups go out on weekdays. Replies land
+            in Gmail on your phone.
           </p>
         </div>
         <form action={logoutAction}>
@@ -158,59 +161,43 @@ export default function OutreachDesk({
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="space-y-8">
           <section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6">
-            <h2 className="text-lg font-semibold text-stone-900">Add a buyer</h2>
+            <h2 className="text-lg font-semibold text-stone-900">Send to a buyer</h2>
             <p className="mt-1 text-sm text-stone-600">
-              Use a named purchasing address from the company&apos;s own site, not a guessed inbox.
+              You do not need to research the company here. Email + country is enough. We pick the
+              language: Spanish for Mexico (and Spain), Polish for Poland, English for everyone else.
             </p>
             <form
               className="mt-4 grid gap-3 sm:grid-cols-2"
               action={(formData) => run(() => addLeadAction(formData))}
             >
-              <Field label="Company" name="companyName" required placeholder="e.g. Fresh wholesale" />
               <Field
                 label="Work email"
                 name="email"
                 type="email"
                 required
-                placeholder="zakupy@company.pl"
+                placeholder="compras@empresa.mx"
                 autoComplete="email"
               />
-              <Field label="Buyer name" name="contactName" placeholder="Optional" />
-              <Field label="City" name="city" placeholder="Warszawa" />
-              <Field label="Website" name="website" placeholder="https://" inputMode="url" />
-              <Field label="What they sell" name="productsNoted" placeholder="mango, awokado" />
               <label className="text-sm font-medium text-stone-700">
-                Language
-                <select name="language" className={`${inputClass} mt-1`} defaultValue="pl">
-                  <option value="pl">Polish</option>
-                  <option value="en">English</option>
+                Country
+                <select name="country" className={`${inputClass} mt-1`} defaultValue="Mexico" required>
+                  {COUNTRY_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </label>
-              <label className="text-sm font-medium text-stone-700 sm:col-span-2">
-                Notes
-                <textarea
-                  name="notes"
-                  rows={2}
-                  className={`${inputClass} mt-1`}
-                  placeholder="Calibre, port, last conversation..."
-                />
-              </label>
-              <label className="flex items-center gap-3 text-sm font-medium text-stone-800 sm:col-span-2">
-                <input
-                  type="checkbox"
-                  name="startNow"
-                  defaultChecked
-                  className="size-5 rounded border-stone-300 text-teal-700"
-                />
-                Send email 1 now (follow-ups go out on weekdays)
-              </label>
+              <Field label="Company (optional)" name="companyName" placeholder="From the email domain if empty" />
+              <Field label="City (optional)" name="city" placeholder="Optional" />
+              <input type="hidden" name="startNow" value="on" />
               <div className="sm:col-span-2">
                 <button
                   type="submit"
                   disabled={pending}
                   className="min-h-12 w-full rounded-full bg-teal-700 px-5 py-3 text-sm font-medium text-white hover:bg-teal-800 disabled:opacity-50 sm:w-auto"
                 >
-                  {pending ? "Saving..." : "Add and start sequence"}
+                  {pending ? "Sending..." : "Send email 1 now"}
                 </button>
               </div>
             </form>
@@ -330,6 +317,7 @@ export default function OutreachDesk({
               <p className="text-sm text-stone-600">
                 {selected.contactName ? `${selected.contactName} · ` : ""}
                 {selected.email}
+                {selected.country ? ` · ${selected.country}` : ""}
                 {selected.city ? ` · ${selected.city}` : ""}
               </p>
               <div className="mt-4 grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
@@ -422,7 +410,7 @@ export default function OutreachDesk({
               {preview.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
-              <p>Z poważaniem,</p>
+              <p>{closingLine(previewLead.language)}</p>
               <p>
                 {sender.name}
                 <br />
@@ -444,7 +432,7 @@ export default function OutreachDesk({
           <section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
             <h2 className="font-semibold text-stone-900">Import CSV</h2>
             <p className="mt-1 text-sm text-stone-600">
-              Columns: company, email, contact, city, website, products, language, notes
+              Columns: email, country. Optional: company, contact, city, website, products, language, notes
             </p>
             <form className="mt-3 space-y-3" action={(formData) => run(() => importCsvAction(formData))}>
               <input name="file" type="file" accept=".csv,text/csv" className="text-sm" required />

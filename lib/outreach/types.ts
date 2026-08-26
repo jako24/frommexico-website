@@ -1,4 +1,4 @@
-export type LeadLanguage = "pl" | "en";
+export type LeadLanguage = "pl" | "en" | "es";
 
 export type LeadStatus =
   | "new"
@@ -32,6 +32,7 @@ export interface Lead {
   contactName: string;
   email: string;
   city: string;
+  country: string;
   website: string;
   productsNoted: string;
   language: LeadLanguage;
@@ -46,10 +47,11 @@ export interface Lead {
 }
 
 export interface LeadInput {
-  companyName: string;
+  companyName?: string;
   contactName?: string;
   email: string;
   city?: string;
+  country?: string;
   website?: string;
   productsNoted?: string;
   language?: LeadLanguage;

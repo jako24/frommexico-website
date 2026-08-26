@@ -1,2 +1,4 @@
-company,email,contact,city,website,products,language,notes
-Example Produce Sp. z o.o.,zakupy@example.com,Anna Kowalska,Warszawa,https://example.com,"mango, awokado",pl,Replace this row with a buyer you already have a right to contact
+email,country,company,notes
+compras@example.mx,Mexico,Empaque Ejemplo,Spanish sequence
+zakupy@example.com,Poland,Hurtownia Przykład,Polish sequence
+buying@example.com,Netherlands,Fresh Example,English sequence

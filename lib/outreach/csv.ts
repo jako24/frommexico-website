@@ -41,27 +41,34 @@ export function parseLeadCsv(text: string): LeadInput[] {
   const companyIdx = index("company") >= 0 ? index("company") : index("companyname");
   const emailIdx = index("email");
 
-  if (companyIdx < 0 || emailIdx < 0) {
-    throw new Error("CSV needs company and email columns.");
+  if (emailIdx < 0) {
+    throw new Error("CSV needs an email column.");
   }
 
   const rows: LeadInput[] = [];
   for (const line of lines.slice(1)) {
     const cells = splitCsvLine(line);
     const email = cells[emailIdx] || "";
-    const companyName = cells[companyIdx] || "";
-    if (!email || !companyName) {
+    if (!email) {
       continue;
     }
+    const countryIdx = index("country");
+    const langIdx = index("language");
+    const cityIdx = index("city");
+    const websiteIdx = index("website");
+    const productsIdx = index("products") >= 0 ? index("products") : index("productsnoted");
+    const notesIdx = index("notes");
+    const contactIdx = index("contact") >= 0 ? index("contact") : index("contactname");
     rows.push({
-      companyName,
+      companyName: companyIdx >= 0 ? cells[companyIdx] || "" : "",
       email,
-      contactName: cells[index("contact") >= 0 ? index("contact") : index("contactname")] || "",
-      city: cells[index("city")] || "",
-      website: cells[index("website")] || "",
-      productsNoted: cells[index("products") >= 0 ? index("products") : index("productsnoted")] || "",
-      language: parseLanguage(cells[index("language")]),
-      notes: cells[index("notes")] || "",
+      contactName: contactIdx >= 0 ? cells[contactIdx] || "" : "",
+      city: cityIdx >= 0 ? cells[cityIdx] || "" : "",
+      country: countryIdx >= 0 ? cells[countryIdx] || "" : "",
+      website: websiteIdx >= 0 ? cells[websiteIdx] || "" : "",
+      productsNoted: productsIdx >= 0 ? cells[productsIdx] || "" : "",
+      language: langIdx >= 0 && cells[langIdx] ? parseLanguage(cells[langIdx]) : undefined,
+      notes: notesIdx >= 0 ? cells[notesIdx] || "" : "",
     });
   }
   return rows;

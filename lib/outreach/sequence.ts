@@ -12,29 +12,117 @@ export interface SequenceEmail {
 
 function greeting(lead: Lead, language: LeadLanguage) {
   const name = lead.contactName.trim();
+  if (language === "es") {
+    return name ? `Hola ${name},` : "Hola,";
+  }
   if (language === "en") {
     return name ? `Hello ${name},` : "Hello,";
   }
   return name ? `Dzień dobry ${name},` : "Dzień dobry,";
 }
 
-function productLine(lead: Lead) {
-  return lead.productsNoted.trim() || "mango and avocado";
+function productLine(lead: Lead, language: LeadLanguage) {
+  const noted = lead.productsNoted.trim();
+  if (noted) {
+    return noted;
+  }
+  if (language === "es") {
+    return "mango y aguacate";
+  }
+  return "mango and avocado";
+}
+
+function isMexico(lead: Lead) {
+  const n = (lead.country || "").toLowerCase();
+  return n.includes("mexico") || n.includes("méxico") || n === "mx";
 }
 
 function destination(lead: Lead, language: LeadLanguage) {
+  if (language === "es") {
+    if (isMexico(lead)) {
+      return "hacia Europa";
+    }
+    if (lead.city.trim()) {
+      return `a ${lead.city}`;
+    }
+    return "a Europa";
+  }
   if (lead.city.trim()) {
     return language === "en" ? `into ${lead.city}` : `do ${lead.city}`;
   }
-  return language === "en" ? "into Poland" : "do Polski";
+  if (lead.country.trim() && !isMexico(lead)) {
+    return language === "en" ? `into ${lead.country}` : `do ${lead.country}`;
+  }
+  return language === "en" ? "into Europe" : "do Europy";
+}
+
+function companyLabel(lead: Lead, language: LeadLanguage) {
+  if (lead.companyName.trim()) {
+    return lead.companyName;
+  }
+  if (language === "es") {
+    return "su equipo de compras";
+  }
+  if (language === "en") {
+    return "your buying team";
+  }
+  return "Państwa firmy";
+}
+
+export function closingLine(language: LeadLanguage) {
+  if (language === "es") {
+    return "Un saludo,";
+  }
+  if (language === "en") {
+    return "Kind regards,";
+  }
+  return "Z poważaniem,";
 }
 
 export function buildSequenceEmail(lead: Lead, step = lead.sequenceStep + 1): SequenceEmail {
   const language = lead.language;
-  const company = lead.companyName || (language === "en" ? "your buying team" : "Państwa firmy");
-  const products = productLine(lead);
+  const company = companyLabel(lead, language);
+  const products = productLine(lead, language);
   const dest = destination(lead, language);
   const hello = greeting(lead, language);
+
+  if (language === "es") {
+    if (step === 1) {
+      return {
+        step,
+        subject: `${company}: Hass y Kent de México ${dest} — 14–18 días`,
+        preview: "Fruta directa de packing house. Basta una línea para responder.",
+        paragraphs: [
+          hello,
+          `Soy Jan, de FromMexico. Enviamos aguacate Hass (Michoacán) y mango Kent / Ataulfo (Chiapas) ${dest} — líneas que ya trabajan con ${products}.`,
+          "El fruto se preenfría en cuatro horas, clase I, atmósfera controlada, con orgánico UE, GLOBALG.A.P. y fitosanitario listos antes de Rotterdam, Amberes o Gdansk.",
+          "Si el origen mexicano entra en el próximo programa, responda con un volumen semanal — o «no esta temporada» y cierro el expediente.",
+        ],
+      };
+    }
+    if (step === 2) {
+      return {
+        step,
+        subject: `Re: ${company} — calibre, puerto y MOQ`,
+        preview: "Cotizo su especificación, no un catálogo.",
+        paragraphs: [
+          hello,
+          `Retomo Hass y Kent ${dest}. Puedo cotizar calibre (p. ej. aguacate 20–22), caja, punto de maduración y puerto.`,
+          "Basta una línea. Si el momento no es ahora, dígalo y me detengo.",
+        ],
+      };
+    }
+    return {
+      step,
+      subject: `Cierro el hilo — FromMexico / ${company}`,
+      preview: "Última nota sobre aguacate y mango mexicano.",
+      paragraphs: [
+        hello,
+        "No insistiré más. Si el Hass o Kent mexicano vuelve a la lista, escriba a esta dirección y envío lotes y tránsito actuales.",
+        `También puede usar el formulario en ${SITE_URL}#contact.`,
+      ],
+    };
+  }
 
   if (language === "en") {
     if (step === 1) {

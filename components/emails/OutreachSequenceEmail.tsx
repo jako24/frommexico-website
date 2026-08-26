@@ -28,11 +28,17 @@ export function OutreachSequenceEmail({
   unsubscribeHref,
 }: OutreachSequenceEmailProps) {
   const closing =
-    lead.language === "en" ? "Kind regards," : "Z poważaniem,";
+    lead.language === "es"
+      ? "Un saludo,"
+      : lead.language === "en"
+        ? "Kind regards,"
+        : "Z poważaniem,";
   const optOut =
-    lead.language === "en"
-      ? "If this is not relevant, you can opt out here:"
-      : "Jeśli ta wiadomość nie jest dla Państwa istotna, rezygnacja:";
+    lead.language === "es"
+      ? "Si este mensaje no es relevante, puede darse de baja aquí:"
+      : lead.language === "en"
+        ? "If this is not relevant, you can opt out here:"
+        : "Jeśli ta wiadomość nie jest dla Państwa istotna, rezygnacja:";
   const logoSrc = `${SITE_URL}/email-logo.png`;
 
   return (
@@ -85,7 +91,11 @@ export function OutreachSequenceEmail({
             <br />
             {optOut}{" "}
             <Link href={unsubscribeHref} style={link}>
-              {lead.language === "en" ? "unsubscribe" : "wypisz się"}
+              {lead.language === "es"
+                ? "darse de baja"
+                : lead.language === "en"
+                  ? "unsubscribe"
+                  : "wypisz się"}
             </Link>
           </Text>
         </Container>
