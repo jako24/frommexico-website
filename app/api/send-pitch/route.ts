@@ -9,7 +9,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const to = searchParams.get("to") || "korczynskijanek24@gmail.com";
+    const to = searchParams.get("to") || "jan.korczynski@frommexico.eu";
     
     const fromEmail = process.env.CONTACT_EMAIL_FROM || "onboarding@resend.dev";
 
