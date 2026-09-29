@@ -39,7 +39,7 @@ export const copy = {
     subtitle:
       "Tell us what you need — product, volume, delivery window and destination port. We reply within one business day.",
     details: {
-      email: "korczynskijanek24@gmail.com",
+      email: "jan.korczynski@frommexico.eu",
       phone: "+48 791 633 136",
       phone2: "+52 618 266 9139",
       address: "Amapola S/N, Jardines de Dgo, 34200 Durango, Dgo",
